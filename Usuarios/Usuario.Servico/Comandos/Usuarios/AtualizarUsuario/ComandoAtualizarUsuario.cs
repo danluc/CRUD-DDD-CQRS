@@ -7,6 +7,8 @@ using Usuario.Data.Context;
 using Usuarios.Dominio.DTOs;
 using Dominio = Usuarios.Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Usuario.Servico.Helpers;
+using Usuario.Servico.Comandos.Usuarios.CadastrarUsuario;
 
 namespace Usuario.Servico.Comandos.Usuarios.AtualizarUsuario
 {
@@ -25,6 +27,7 @@ namespace Usuario.Servico.Comandos.Usuarios.AtualizarUsuario
         {
             try
             {
+                ValidarDados(request.Dados);
                 var usuario = await _bancoDBContext.Usuarios.FirstOrDefaultAsync(e => e.Id == request.Id);
                 if (usuario is null)
                 {
@@ -58,6 +61,16 @@ namespace Usuario.Servico.Comandos.Usuarios.AtualizarUsuario
                     Sucesso = false
                 };
             }
+        }
+
+        private void ValidarDados(UsuarioDTO dados)
+        {
+            if (!ValidarDataNascimentoHelper.ValidarDataMaiorAtual(dados.DataNascimento))
+                throw new Exception("Data nascimento não permitida!");
+
+
+            if (!ValidarEmailHelper.ValidarEmail(dados.Email))
+                throw new Exception("E-mail inválido!");
         }
     }
 }
