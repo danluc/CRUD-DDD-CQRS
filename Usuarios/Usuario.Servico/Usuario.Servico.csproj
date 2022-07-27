@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Usuario.Data\Usuario.Data.csproj" />
+    <ProjectReference Include="..\Usuarios.Dominio\Usuarios.Dominio.csproj" />
+  </ItemGroup>
+
+</Project>
