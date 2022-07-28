@@ -1,4 +1,8 @@
 <div class="conteudo">
+  <div class="alert alert-info" *ngIf="this.mensagem.length > 0" role="alert">
+    <b>{{ this.mensagem }}</b>
+  </div>
+
   <table class="table table-striped">
     <thead>
       <tr>
@@ -25,8 +29,19 @@
             [routerLink]="['atualizar', item.id]"
             class="nav-link"
             aria-current="page"
-            >Atualizar</a
+            title="Atualizar usuário"
           >
+            <i class="bi bi-pencil-square"></i>
+          </a>
+          <a
+            class="nav-link"
+            href="javascript:void(0)"
+            (click)="this.excluir(item)"
+            aria-current="page"
+            title="Excluir usuário"
+          >
+            <i class="bi bi-trash3-fill"></i>
+          </a>
         </td>
       </tr>
     </tbody>

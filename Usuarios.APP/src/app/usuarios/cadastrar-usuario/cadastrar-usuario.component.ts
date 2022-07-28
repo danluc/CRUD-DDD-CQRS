@@ -17,7 +17,7 @@ export class CadastrarUsuarioComponent implements OnInit {
   public mensagem: string = '';
   public hasErro: boolean = false;
   private _idUsuario: number;
-  private usuario: Usuario;
+  public usuario: Usuario;
   constructor(
     private _formBuilder: FormBuilder,
     private _usuariosControllerService: UsuariosControllerService,
@@ -27,7 +27,6 @@ export class CadastrarUsuarioComponent implements OnInit {
 
   ngOnInit() {
     const id = this._route.snapshot.paramMap.get('id') || null;
-    console.log(id);
     this.form = this._formBuilder.group({
       nome: ['', [Validators.maxLength(200), Validators.required]],
       sobrenome: ['', [Validators.maxLength(200), Validators.required]],
@@ -46,10 +45,13 @@ export class CadastrarUsuarioComponent implements OnInit {
       (res) => {
         this.usuario = res.usuario;
         this.carregando = false;
+        var data = new Date(this.usuario.dataNascimento)
+          .toISOString()
+          .slice(0, 10);
         this.form.get('nome')?.setValue(this.usuario.nome);
         this.form.get('sobrenome')?.setValue(this.usuario.sobrenome);
         this.form.get('email')?.setValue(this.usuario.email);
-        this.form.get('dataNascimento')?.setValue(this.usuario.dataNascimento);
+        this.form.get('dataNascimento')?.setValue(data);
         this.form.get('escolaridade')?.setValue(this.usuario.escolaridade);
       },
       (erro) => {
@@ -73,7 +75,7 @@ export class CadastrarUsuarioComponent implements OnInit {
         if (res.sucesso) {
           setTimeout(() => {
             this.router.navigate(['/']);
-          }, 1500);
+          }, 1000);
         }
       },
       (erro) => {
@@ -83,5 +85,33 @@ export class CadastrarUsuarioComponent implements OnInit {
         console.log(erro);
       }
     );
+  }
+
+  public atualizar(): void {
+    this.mensagem = '';
+    if (this.form.invalid) {
+      return;
+    }
+    this.carregando = true;
+    const dados = this.form.value as Usuario;
+    this._usuariosControllerService
+      .atualizarUsuario(dados, this.usuario.id)
+      .subscribe(
+        (res) => {
+          this.mensagem = 'Usuário atualizado com sucesso!';
+          this.carregando = false;
+          if (res.sucesso) {
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 1000);
+          }
+        },
+        (erro) => {
+          this.carregando = false;
+          this.hasErro = true;
+          this.mensagem = erro.error.mensagem;
+          console.log(erro);
+        }
+      );
   }
 }

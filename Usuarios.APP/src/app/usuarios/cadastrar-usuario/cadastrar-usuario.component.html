@@ -1,4 +1,5 @@
-<p>Cadastrar usuário</p>
+<h3 *ngIf="!this.usuario">Cadastrar usuário</h3>
+<h3 *ngIf="this.usuario">Atualizar {{ this.usuario.nome }}</h3>
 
 <div
   class="alert"
@@ -95,8 +96,17 @@
       (click)="this.salvar()"
       [disabled]="this.form.invalid"
       class="btn btn-primary"
+      *ngIf="!this.usuario"
     >
       {{ this.carregando ? "Salvando..." : "Salvar" }}
+    </button>
+    <button
+      (click)="this.atualizar()"
+      [disabled]="this.form.invalid"
+      class="btn btn-primary"
+      *ngIf="this.usuario"
+    >
+      {{ this.carregando ? "Salvando..." : "Atualizar" }}
     </button>
   </div>
 </form>
