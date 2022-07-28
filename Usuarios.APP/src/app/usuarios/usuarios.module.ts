@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 import { CadastrarUsuarioComponent } from './cadastrar-usuario/cadastrar-usuario.component';
 import { PipesModule } from 'src/_pipe/pipes.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -19,7 +20,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes), PipesModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    PipesModule,
+  ],
   declarations: [
     UsuariosComponent,
     ListarUsuariosComponent,

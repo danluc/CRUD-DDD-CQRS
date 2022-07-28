@@ -1,3 +1,102 @@
-<p>
-  cadastrar-usuario works!
-</p>
+<p>Cadastrar usuário</p>
+
+<div
+  class="alert"
+  [ngClass]="{ 'alert-danger': this.hasErro, 'alert-success': !this.hasErro }"
+  *ngIf="this.mensagem.length > 0"
+  role="alert"
+>
+  <b>{{ this.mensagem }}</b>
+</div>
+
+<form [formGroup]="form">
+  <div class="row mb-3">
+    <div class="mb-3 col-6">
+      <label for="nome" class="form-label">Nome</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        formControlName="nome"
+      />
+      <div
+        *ngIf="this.form.get('nome')?.hasError('required')"
+        class="form-text text-danger"
+      >
+        Campo obrigatório!
+      </div>
+    </div>
+    <div class="mb-3 col-6">
+      <label for="sobrenome" class="form-label">Sobrenome</label>
+      <input
+        type="text"
+        class="form-control"
+        id="sobrenome"
+        formControlName="sobrenome"
+      />
+      <div
+        *ngIf="this.form.get('sobrenome')?.hasError('required')"
+        class="form-text text-danger"
+      >
+        Campo obrigatório!
+      </div>
+    </div>
+    <div class="mb-3 col-6">
+      <label for="email" class="form-label">E-mail</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+      />
+      <div
+        *ngIf="this.form.get('email')?.hasError('required')"
+        class="form-text text-danger"
+      >
+        Campo obrigatório!
+      </div>
+    </div>
+    <div class="mb-3 col-6">
+      <label for="dataNascimento" class="form-label">Data Nascimento</label>
+      <input
+        type="date"
+        class="form-control"
+        id="dataNascimento"
+        formControlName="dataNascimento"
+      />
+      <div
+        *ngIf="this.form.get('dataNascimento')?.hasError('required')"
+        class="form-text text-danger"
+      >
+        Campo obrigatório!
+      </div>
+    </div>
+    <div class="mb-3 col-6">
+      <label for="escolaridade" class="form-label">Escolaridade</label>
+      <select
+        class="form-select"
+        formControlName="escolaridade"
+        id="escolaridade"
+      >
+        <option *ngFor="let item of this.escolaridade" [value]="item.id">
+          {{ item.descricao }}
+        </option>
+      </select>
+      <div
+        *ngIf="this.form.get('escolaridade')?.hasError('required')"
+        class="form-text text-danger"
+      >
+        Campo obrigatório!
+      </div>
+    </div>
+  </div>
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <button
+      (click)="this.salvar()"
+      [disabled]="this.form.invalid"
+      class="btn btn-primary"
+    >
+      {{ this.carregando ? "Salvando..." : "Salvar" }}
+    </button>
+  </div>
+</form>
