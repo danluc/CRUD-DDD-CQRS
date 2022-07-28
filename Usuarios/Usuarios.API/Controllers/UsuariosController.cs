@@ -5,6 +5,7 @@ using Usuario.Servico.Comandos.Usuarios.AtualizarUsuario;
 using Usuario.Servico.Comandos.Usuarios.CadastrarUsuario;
 using Usuario.Servico.Comandos.Usuarios.ExcluirUsuario;
 using Usuario.Servico.Consultas.Usuarios.ListarUsuarios;
+using Usuario.Servico.Consultas.Usuarios.SelecionarUsuarioPorId;
 using Usuarios.Dominio.DTOs;
 
 namespace Usuarios.API.Controllers
@@ -23,6 +24,16 @@ namespace Usuarios.API.Controllers
         public async Task<ActionResult> Get()
         {
             var result = await _mediator.Send(new ParametroListarUsuarios());
+            if (!result.Sucesso)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("{Id}")]
+        public async Task<ActionResult> Get(int Id)
+        {
+            var result = await _mediator.Send(new ParametroSelecionarUsuarioPorId(Id));
             if (!result.Sucesso)
                 return BadRequest(result);
 

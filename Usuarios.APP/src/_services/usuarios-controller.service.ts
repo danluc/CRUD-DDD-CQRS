@@ -17,6 +17,12 @@ export class UsuariosControllerService {
     return this.http.get<ResultadoUsuarios>(`${environment.apiUrl}/usuarios`);
   }
 
+  public selecionarPorId(id: number): Observable<ResultadoUsuario> {
+    return this.http.get<ResultadoUsuario>(
+      `${environment.apiUrl}/usuarios/${id}`
+    );
+  }
+
   public cadastrarUsuario(dados: Usuario): Observable<ResultadoUsuario> {
     return this.http.post<ResultadoUsuario>(
       `${environment.apiUrl}/usuarios`,
