@@ -1,20 +1,24 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
+import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+import { appRoutes } from './app.routing';
+
+const routerConfig: ExtraOptions = {
+  preloadingStrategy: PreloadAllModules,
+  scrollPositionRestoration: 'enabled',
+};
 
 @NgModule({
-  declarations: [	
-    AppComponent,
-      UsuariosComponent
-   ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    RouterModule.forRoot(appRoutes, routerConfig),
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

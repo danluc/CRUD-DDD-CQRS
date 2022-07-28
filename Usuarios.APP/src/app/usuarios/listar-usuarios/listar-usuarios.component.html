@@ -1,3 +1,25 @@
-<p>
-  listar-usuarios works!
-</p>
+<div class="conteudo">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Sobrenome</th>
+        <th scope="col">Dt. Nascimento</th>
+        <th scope="col">Escolaridade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="this.carregando">
+        <td colspan="5" class="text-center">Carregando...</td>
+      </tr>
+      <tr *ngFor="let item of this.usuarios">
+        <td>{{ item.id }}</td>
+        <td>{{ item.nome }}</td>
+        <td>{{ item.sobrenome }}</td>
+        <td>{{ item.dataNascimento | date: "dd/MM/yyyy" }}</td>
+        <td>{{ item.escolaridade | descricaoescolaridade }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
