@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Servico", "3 - Servico"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{BCF35640-779F-4F4B-A72A-D996613EB74F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usuarios.Dominio", "Usuarios.Dominio\Usuarios.Dominio.csproj", "{38A4C303-F0E8-4004-A5AA-D21462605E72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Usuarios.Dominio", "Usuarios.Dominio\Usuarios.Dominio.csproj", "{38A4C303-F0E8-4004-A5AA-D21462605E72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usuario.Data", "Usuario.Data\Usuario.Data.csproj", "{C38EE35A-5818-43C8-8DB9-A3092E751C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Usuario.Data", "Usuario.Data\Usuario.Data.csproj", "{C38EE35A-5818-43C8-8DB9-A3092E751C82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usuario.Servico", "Usuario.Servico\Usuario.Servico.csproj", "{6C2AEE94-8918-4E56-830D-C67B559874E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Usuario.Servico", "Usuario.Servico\Usuario.Servico.csproj", "{6C2AEE94-8918-4E56-830D-C67B559874E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usuarios.API", "Usuarios.API\Usuarios.API.csproj", "{EB0F7F14-65F5-44F3-AFD5-5CFED0FA74B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Usuarios.API", "Usuarios.API\Usuarios.API.csproj", "{EB0F7F14-65F5-44F3-AFD5-5CFED0FA74B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
