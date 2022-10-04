@@ -32,8 +32,10 @@ namespace Usuarios.API
             services.AddMediatR(AppDomain.CurrentDomain.Load("Usuario.Servico"));
 
             services.AddScoped<IRepositorioConsulta<Dominio.Models.Usuario>, RepositorioConsulta<Dominio.Models.Usuario>>();
+            services.AddScoped<IRepositorioComando<Dominio.Models.Usuario>, RepositorioComando<Dominio.Models.Usuario>>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling =
+                 Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

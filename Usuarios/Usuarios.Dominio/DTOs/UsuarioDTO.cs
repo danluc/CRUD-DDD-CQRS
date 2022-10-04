@@ -18,19 +18,19 @@ namespace Usuarios.Dominio.DTOs
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrEmpty(this.Nome))
-                yield return new ValidationResult("O nome é obrigatório.", new[] { "erro" });
+                yield return new ValidationResult("O nome é obrigatório.", new[] { "mgs" });
 
             if (string.IsNullOrEmpty(this.Email))
-                yield return new ValidationResult("O E-mail é obrigatório.", new[] { "erro" });
+                yield return new ValidationResult("O E-mail é obrigatório.", new[] { "mgs" });
 
-            if (this.DataNascimento < DateTime.Now.Date)
-                yield return new ValidationResult("Data nascimento não permitida.", new[] { "erro" });
+            if (this.DataNascimento > DateTime.Now.Date)
+                yield return new ValidationResult("Data nascimento não permitida.", new[] { "mgs" });
             
-            if (new EmailAddressAttribute().IsValid(this.Email))
-                yield return new ValidationResult("E-mail inválido.", new[] { "erro" });
+            if (!new EmailAddressAttribute().IsValid(this.Email))
+                yield return new ValidationResult("E-mail inválido.", new[] { "mgs" });
             
             if (!Enum.IsDefined(typeof(EscolaridadeEnum), this.Escolaridade))
-                yield return new ValidationResult("Escolaridade inválida.", new[] { "erro" });
+                yield return new ValidationResult("Escolaridade inválida.", new[] { "mgs" });
         }
     }
 }

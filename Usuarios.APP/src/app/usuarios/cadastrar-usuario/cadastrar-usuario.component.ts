@@ -78,11 +78,11 @@ export class CadastrarUsuarioComponent implements OnInit {
           }, 1000);
         }
       },
-      (erro) => {
+      (err) => {
         this.carregando = false;
         this.hasErro = true;
-        this.mensagem = erro.error.mensagem;
-        console.log(erro);
+        this.mensagem = err.error.errors?.mgs[0];
+        console.log(err);
       }
     );
   }
@@ -109,7 +109,8 @@ export class CadastrarUsuarioComponent implements OnInit {
         (erro) => {
           this.carregando = false;
           this.hasErro = true;
-          this.mensagem = erro.error.mensagem;
+          console.log(erro.errors?.erro[0])
+          this.mensagem = erro.errors?.erro[0];
           console.log(erro);
         }
       );
