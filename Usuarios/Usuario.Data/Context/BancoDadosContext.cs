@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Usuario.Data.EntityConfiguration;
 using Dominio = Usuarios.Dominio.Models;
 
 namespace Usuario.Data.Context
@@ -14,6 +15,8 @@ namespace Usuario.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new UsuariosConfig());
         }
     }
 }

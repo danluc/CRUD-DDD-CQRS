@@ -1,31 +1,34 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Usuario.Data.Context;
-using Usuario.Servico.Helpers;
+using Usuarios.Dominio.Contratos;
 using Usuarios.Dominio.DTOs;
+using Dominio = Usuarios.Dominio.Models;
 
 namespace Usuario.Servico.Comandos.Usuarios.AtualizarUsuario
 {
     public class ComandoAtualizarUsuario : IRequestHandler<ParametroAtualizarUsuario, ResultadoAtualizarUsuario>
     {
-        private readonly BancoDadosContext _bancoDBContext;
         private readonly IMapper _mapper;
+        private readonly IRepositorioComando<Dominio.Usuario> _repositorioComandoUsuario;
+        private readonly IRepositorioConsulta<Dominio.Usuario> _repositorioConsultaUsuario;
 
-        public ComandoAtualizarUsuario(BancoDadosContext bancoDBContext, IMapper mapper)
+        public ComandoAtualizarUsuario(IMapper mapper,
+            IRepositorioComando<Dominio.Usuario> repositorioComandoUsuario,
+            IRepositorioConsulta<Dominio.Usuario> repositorioConsultaUsuario)
         {
-            _bancoDBContext = bancoDBContext;
             _mapper = mapper;
+            _repositorioComandoUsuario = repositorioComandoUsuario;
+            _repositorioConsultaUsuario = repositorioConsultaUsuario;
         }
 
         public async Task<ResultadoAtualizarUsuario> Handle(ParametroAtualizarUsuario request, CancellationToken cancellationToken)
         {
             try
             {
-                var usuario = await _bancoDBContext.Usuarios.FirstOrDefaultAsync(e => e.Id == request.Id);
+                var usuario = await _repositorioConsultaUsuario.FirstOrDefault(leitura: true, filtro: e => e.Id == request.Id);
                 if (usuario is null)
                 {
                     return new ResultadoAtualizarUsuario
@@ -34,15 +37,14 @@ namespace Usuario.Servico.Comandos.Usuarios.AtualizarUsuario
                         Mensagem = "Usuário não encontrado!"
                     };
                 };
-                ValidarUsuarioHelper.Validar(request.Dados);
                 usuario.Nome = request.Dados.Nome;
                 usuario.Email = request.Dados.Email;
                 usuario.DataNascimento = request.Dados.DataNascimento;
                 usuario.Escolaridade = request.Dados.Escolaridade;
                 usuario.Sobrenome = request.Dados.Sobrenome;
 
-                _bancoDBContext.Usuarios.Update(usuario);
-                await _bancoDBContext.SaveChangesAsync();
+                _repositorioComandoUsuario.Update(usuario);
+                await _repositorioComandoUsuario.SaveChangesAsync();
 
                 return new ResultadoAtualizarUsuario
                 {

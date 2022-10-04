@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Usuarios.Dominio.Contratos;
 
 namespace Usuarios.Dominio.Models
 {
-    public class ModelBase
+    public class ModelBase : IEntity
     {
         public int Id { get; set; }
     }

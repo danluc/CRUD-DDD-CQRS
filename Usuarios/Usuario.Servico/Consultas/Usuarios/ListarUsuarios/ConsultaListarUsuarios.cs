@@ -1,32 +1,33 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Threading;
-using Usuario.Data.Context;
+using System.Threading.Tasks;
+using Usuarios.Dominio.Contratos;
 using Usuarios.Dominio.DTOs;
 using Dominio = Usuarios.Dominio.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace Usuario.Servico.Consultas.Usuarios.ListarUsuarios
 {
     public class ConsultaListarUsuarios : IRequestHandler<ParametroListarUsuarios, ResultadoListarUsuarios>
     {
-        private readonly BancoDadosContext _bancoDBContext;
         private readonly IMapper _mapper;
+        private readonly IRepositorioConsulta<Dominio.Usuario> _repositorioConsultaUsuario;
 
-        public ConsultaListarUsuarios(BancoDadosContext bancoDBContext, IMapper mapper)
+        public ConsultaListarUsuarios(IMapper mapper,
+            IRepositorioConsulta<Dominio.Usuario> repositorioConsultaUsuario)
         {
-            _bancoDBContext = bancoDBContext;
             _mapper = mapper;
+            _repositorioConsultaUsuario = repositorioConsultaUsuario;
         }
 
         public async Task<ResultadoListarUsuarios> Handle(ParametroListarUsuarios request, CancellationToken cancellationToken)
         {
             try
             {
-                var usuarios = await _bancoDBContext.Usuarios.ToListAsync();
+                var usuarios = await _repositorioConsultaUsuario.Query().ToListAsync();
                 return new ResultadoListarUsuarios
                 {
                     Sucesso = true,

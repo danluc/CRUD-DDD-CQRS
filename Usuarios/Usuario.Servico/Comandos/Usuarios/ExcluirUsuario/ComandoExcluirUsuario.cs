@@ -1,27 +1,31 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Usuario.Data.Context;
+using Usuarios.Dominio.Contratos;
 using Usuarios.Dominio.Global;
+using Dominio = Usuarios.Dominio.Models;
 
 namespace Usuario.Servico.Comandos.Usuarios.ExcluirUsuario
 {
     public class ComandoExcluirUsuario : IRequestHandler<ParametroExcluirUsuario, ResultadoController>
     {
-        private readonly BancoDadosContext _bancoDBContext;
+        private readonly IRepositorioComando<Dominio.Usuario> _repositorioComandoUsuario;
+        private readonly IRepositorioConsulta<Dominio.Usuario> _repositorioConsultaUsuario;
 
-        public ComandoExcluirUsuario(BancoDadosContext bancoDBContext)
+        public ComandoExcluirUsuario(
+            IRepositorioComando<Dominio.Usuario> repositorioComandoUsuario,
+            IRepositorioConsulta<Dominio.Usuario> repositorioConsultaUsuario)
         {
-            _bancoDBContext = bancoDBContext;
+            _repositorioComandoUsuario = repositorioComandoUsuario;
+            _repositorioConsultaUsuario = repositorioConsultaUsuario;
         }
 
         public async Task<ResultadoController> Handle(ParametroExcluirUsuario request, CancellationToken cancellationToken)
         {
             try
             {
-                var usuario = await _bancoDBContext.Usuarios.FirstOrDefaultAsync(e => e.Id == request.Id);
+                var usuario = await _repositorioConsultaUsuario.FirstOrDefault(leitura: true, filtro: e => e.Id == request.Id);
                 if (usuario is null)
                 {
                     return new ResultadoController
@@ -31,8 +35,8 @@ namespace Usuario.Servico.Comandos.Usuarios.ExcluirUsuario
                     };
                 };
 
-                _bancoDBContext.Usuarios.Remove(usuario);
-                await _bancoDBContext.SaveChangesAsync();
+                _repositorioComandoUsuario.Delete(usuario);
+                await _repositorioComandoUsuario.SaveChangesAsync();
 
                 return new ResultadoController
                 {

@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Globalization;
 using Usuario.Data.Context;
+using Usuario.Data.Repository;
 using Usuarios.Dominio.Config;
+using Usuarios.Dominio.Contratos;
 
 namespace Usuarios.API
 {
@@ -28,6 +30,9 @@ namespace Usuarios.API
             services.AddDbContext<BancoDadosContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(AutoMapperSetup));
             services.AddMediatR(AppDomain.CurrentDomain.Load("Usuario.Servico"));
+
+            services.AddScoped<IRepositorioConsulta<Dominio.Models.Usuario>, RepositorioConsulta<Dominio.Models.Usuario>>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

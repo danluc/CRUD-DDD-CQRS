@@ -14,7 +14,6 @@ namespace Usuarios.Dominio.Config
         public AutoMapperSetup()
         {
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
-            CreateMap<UsuarioDTO, Usuario>().ReverseMap();
         }
     }
 }

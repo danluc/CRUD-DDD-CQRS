@@ -1,31 +1,31 @@
 ﻿using AutoMapper;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Usuario.Data.Context;
+using Usuarios.Dominio.Contratos;
 using Usuarios.Dominio.DTOs;
+using Dominio = Usuarios.Dominio.Models;
 
 namespace Usuario.Servico.Consultas.Usuarios.SelecionarUsuarioPorId
 {
     public class ConsultaSelecionarUsuarioPorId : IRequestHandler<ParametroSelecionarUsuarioPorId, ResultadoSelecionarUsuarioPorId>
     {
-        private readonly BancoDadosContext _bancoDBContext;
         private readonly IMapper _mapper;
+        private readonly IRepositorioConsulta<Dominio.Usuario> _repositorioConsultaUsuario;
 
-        public ConsultaSelecionarUsuarioPorId(BancoDadosContext bancoDBContext, IMapper mapper)
+        public ConsultaSelecionarUsuarioPorId(IMapper mapper,
+            IRepositorioConsulta<Dominio.Usuario> repositorioConsultaUsuario)
         {
-            _bancoDBContext = bancoDBContext;
             _mapper = mapper;
+            _repositorioConsultaUsuario = repositorioConsultaUsuario;
         }
 
         public async Task<ResultadoSelecionarUsuarioPorId> Handle(ParametroSelecionarUsuarioPorId request, CancellationToken cancellationToken)
         {
             try
             {
-                var usuario = await _bancoDBContext.Usuarios.FindAsync(request.Id);
+                var usuario = await _repositorioConsultaUsuario.FindById(request.Id);
                 return new ResultadoSelecionarUsuarioPorId
                 {
                     Sucesso = true,
